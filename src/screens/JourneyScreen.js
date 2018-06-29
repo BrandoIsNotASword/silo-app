@@ -4,7 +4,6 @@ import { StyleSheet, Button, Text } from 'react-native';
 import Hr from '../components/Hr';
 import Title from '../components/Title';
 import Wrapper from '../components/Wrapper';
-import InputField from '../components/InputField';
 
 class JourneyScreen extends React.Component {
   static navigationOptions = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, Text, TextInput } from 'react-native';
+import { StyleSheet, Button, Text } from 'react-native';
 
 import Hr from '../components/Hr';
 import Title from '../components/Title';
@@ -27,6 +27,9 @@ class RegisterScreen extends React.Component {
         <InputField label="CORREO ELECTRÓNICO" />
         <Hr />
         <InputField label="TELÉFONO" />
+        <Hr />
+        <Text>Si cuentas con un código de tu organización, agrégalo:</Text>
+        <InputField label="TOKEN DE ACCESO" />
         <Hr />
         <Button
           title="ENVIAR"
