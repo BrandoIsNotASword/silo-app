@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Button, Keyboard } from 'react-native';
+
+import TimePicker from 'react-native-modal-datetime-picker';
 
 import Title from '../components/Title';
 import InputField from '../components/InputField';
@@ -8,6 +10,10 @@ import Select from '../components/Select';
 import Hr from '../components/Hr';
 
 class PollingScreen extends React.Component {
+  state = {
+    isDateTimePickerVisible: false,
+  };
+
   static navigationOptions = {
     title: 'SIGO Móvil',
     headerStyle: {
@@ -19,39 +25,54 @@ class PollingScreen extends React.Component {
     },
   };
 
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = (date) => {
+    this.hideDateTimePicker();
+  }
+
   render() {
     const nextPage = this.props.navigation.getParam('nextPage');
     return (
       <Wrapper> 
         <Title>Cierre de casilla</Title>
         <Select
-          label="TIPO DE IRREGULARIDAD"
+          label="PAQUETE ELECTORAL AL INE"
           options={[
-            { label: 'Aguascaliente', value: 'aguascaliente' },
-            { label: 'Quintana Roo', value: 'quintana-roo' },
+            { label: 'Sí', value: 'si' },
+            { label: 'No', value: 'no' },
           ]}
         />
-        <Hr />
-        <InputField label="DISTRITO ELECTORAL" />
-        <Hr />
-        <InputField label="SECCIÓN ELECTORAL" />
         <Hr />
         <Select
-          label="TIPO DE CASILLA"
+          label="SÁBANA DE RESULTADOS DESPLEGADO AFUERA"
           options={[
-            { label: 'Básica', value: 'basica' },
-            { label: 'Contigua', value: 'contigua' },
-            { label: 'Extraordinaria', value: 'extraordinaria' },
-            { label: 'Especial', value: 'especial' },
+            { label: 'Sí', value: 'si' },
+            { label: 'No', value: 'no' },
           ]}
         />
         <Hr />
-        <InputField label="NÚMERO DE CASILLA" />
+        <InputField
+          caretHidden
+          label="HORA DE CIERRE"
+          onFocus={() => Keyboard.dismiss()}
+          onTouchStart={() => { this.showDateTimePicker() }}
+        />
+        <Hr />
+        <InputField label="COMENTARIOS Y/O INCIDENTES" multiline />
         <Hr />
         <Button
           title="Continuar"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate(nextPage)}
+          onPress={() => this.props.navigation.navigate('Journey')}
+        />
+        <TimePicker
+          mode="time"
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
         />
       </Wrapper>
     );

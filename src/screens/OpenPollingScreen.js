@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Button, Keyboard } from 'react-native';
+
+import TimePicker from 'react-native-modal-datetime-picker';
 
 import Title from '../components/Title';
 import InputField from '../components/InputField';
@@ -8,6 +10,10 @@ import Select from '../components/Select';
 import Hr from '../components/Hr';
 
 class PollingScreen extends React.Component {
+  state = {
+    isDateTimePickerVisible: false,
+  };
+  
   static navigationOptions = {
     title: 'SIGO Móvil',
     headerStyle: {
@@ -19,13 +25,21 @@ class PollingScreen extends React.Component {
     },
   };
 
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = (date) => {
+    this.hideDateTimePicker();
+  }
+
   render() {
     const nextPage = this.props.navigation.getParam('nextPage');
     return (
       <Wrapper>
         <Title>Apertura de casilla</Title>
         <Select
-          label="TIPO DE IRREGULARIDAD"
+          label="ACCESO A LA CASILLA"
           options={[
             { label: 'Bien', value: 'bien' },
             { label: 'Regular', value: 'regular' },
@@ -34,7 +48,7 @@ class PollingScreen extends React.Component {
         />
         <Hr />
         <Select
-          label="TIPO DE IRREGULARIDAD"
+          label="FUNCIONARIOS COMPLETOS"
           options={[
             { label: 'Bien', value: 'bien' },
             { label: 'Regular', value: 'regular' },
@@ -43,7 +57,7 @@ class PollingScreen extends React.Component {
         />
         <Hr />
         <Select
-          label="TIPO DE IRREGULARIDAD"
+          label="MATERIALES COMPLETOS"
           options={[
             { label: 'Bien', value: 'bien' },
             { label: 'Regular', value: 'regular' },
@@ -51,22 +65,25 @@ class PollingScreen extends React.Component {
           ]}
         />
         <Hr />
-        <Select
-          label="TIPO DE CASILLA"
-          options={[
-            { label: 'Básica', value: 'basica' },
-            { label: 'Contigua', value: 'contigua' },
-            { label: 'Extraordinaria', value: 'extraordinaria' },
-            { label: 'Especial', value: 'especial' },
-          ]}
+        <InputField
+          caretHidden
+          label="HORA DE APERTURA"
+          onFocus={() => Keyboard.dismiss()}
+          onTouchStart={() => { this.showDateTimePicker() }}
         />
         <Hr />
-        <InputField label="DESCRIPCIÓN DE LOS HECHOS" />
+        <InputField label="DESCRIPCIÓN DE LOS HECHOS" multiline />
         <Hr />
         <Button
-          title="Continuar"
+          title="ENVIAR REPORTE"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate(nextPage)}
+          onPress={() => this.props.navigation.navigate('Journey')}
+        />
+        <TimePicker
+          mode="time"
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
         />
       </Wrapper>
     );
