@@ -8,7 +8,7 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import IncidentsScreen from './src/screens/IncidentsScreen';
 import JourneyScreen from './src/screens/JourneyScreen';
 import PollingScreen from './src/screens/PollingScreen';
-import ClosingPollingScreen from './src/screens/ClosingPollingScreen';
+import ClosePollingScreen from './src/screens/ClosePollingScreen';
 import OpenPollingScreen from './src/screens/OpenPollingScreen';
 
 const RootStack = createStackNavigator({
@@ -18,7 +18,7 @@ const RootStack = createStackNavigator({
   Incidents: IncidentsScreen,
   Journey: JourneyScreen,
   Polling: PollingScreen,
-  ClosingPolling: ClosingPollingScreen,
+  ClosePolling: ClosePollingScreen,
   OpenPolling: OpenPollingScreen,
 }, {
   initialRouteName: 'Welcome'
