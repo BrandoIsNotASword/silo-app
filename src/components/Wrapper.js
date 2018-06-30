@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 class Hr extends React.Component {
   render() {
-    return <ScrollView style={styles.wrapper}>{this.props.children}</ScrollView>;
+    return <View style={styles.wrapper}>{this.props.children}</View>;
   }
 }
 

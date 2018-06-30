@@ -23,21 +23,21 @@ class HomeScreen extends React.Component {
       <Wrapper>
         <Title>Selecciona una opción</Title>
         <Button
-          title="Reportar incidentes"
+          title="Presidente"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate('Incidents')}
+          onPress={() => this.props.navigation.navigate('Polling', { nextPage: 'President' })}
         />
         <Hr />
         <Button
-          title="Jornada electoral"
+          title="Senadores"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate('Journey')}
+          onPress={() => this.props.navigation.navigate('Polling', { nextPage: 'Senator' })}
         />
         <Hr />
         <Button
-          title="Resultados electorales"
+          title="Diputados"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate('ElectoralResults')}
+          onPress={() => this.props.navigation.navigate('Polling', { nextPage: 'Diputy' })}
         />
       </Wrapper>
     );

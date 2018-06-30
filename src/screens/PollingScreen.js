@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 
 import Title from '../components/Title';
 import InputField from '../components/InputField';
@@ -13,11 +13,11 @@ class PollingScreen extends React.Component {
     super(props);
 
     this.state = {
-      cvevent: null,
+      cvevent: '01',
       cvedist: '',
       cvesecc: '',
-      cvetipo: '',
-      numcasilla: 0 ,
+      cvetipo: 'BA',
+      numcasilla: '' ,
     }
   }
   
@@ -33,12 +33,13 @@ class PollingScreen extends React.Component {
   };
 
   updateInput = (key, value) => {
+    console.log(key, value);
     this.setState({ [key]: value });
   }
 
   render() {
-    console.log(this.state);
     const nextPage = this.props.navigation.getParam('nextPage');
+
     return (
       <Wrapper> 
         <Title>Descripción de casilla</Title>
@@ -82,11 +83,24 @@ class PollingScreen extends React.Component {
           onValueChange={(itemValue) => this.updateInput('cvevent', itemValue)}
         />
         <Hr />
-        <InputField label="DISTRITO ELECTORAL" />
+        <InputField
+          label="DISTRITO ELECTORAL"
+          name="cvedist"
+          keyboardType="phone-pad"
+          value={this.state.cvedist}
+          onChangeText={(cvedist) => this.updateInput('cvedist', cvedist)}
+        />
         <Hr />
-        <InputField label="SECCIÓN ELECTORAL" />
+        <InputField
+          label="SECCIÓN ELECTORAL"
+          name="cvesecc"
+          keyboardType="phone-pad"
+          value={this.state.cvesecc}
+          onChangeText={(cvesecc) => this.updateInput('cvesecc', cvesecc)}
+        />
         <Hr />
         <Select
+          selectedValue={this.state.cvetipo}
           label="TIPO DE CASILLA"
           options={[
             { label: 'BASICA', value: 'BA' },
@@ -95,14 +109,23 @@ class PollingScreen extends React.Component {
             { label: 'EXTR. CONTIGUA', value: 'EC' },
             { label: 'ESPECIAL', value: 'ES' },
           ]}
+          onValueChange={(itemValue) => this.updateInput('cvetipo', itemValue)}
         />
-        <Hr />
-        <InputField label="NÚMERO DE CASILLA" />
+        {this.state.cvetipo !== 'BA' && <View>
+          <Hr />
+          <InputField
+            label="NÚMERO DE CASILLA"
+            name="numcasilla"
+            keyboardType="phone-pad"
+            value={this.state.numcasilla}
+            onChangeText={(numcasilla) => this.updateInput('numcasilla', numcasilla)}
+          />
+        </View>}
         <Hr />
         <Button
           title="Continuar"
           color="#3a42b8"
-          onPress={() => this.props.navigation.navigate(nextPage)}
+          onPress={() => this.props.navigation.navigate(nextPage, { polling: this.state })}
         />
       </Wrapper>
     );

@@ -98,18 +98,25 @@ class RegisterScreen extends React.Component {
           label="CORREO ELECTRÓNICO"
           name="email"
           keyboardType="email-address"
-          value={ this.state.email } 
+          value={ this.state.email }
           onChangeText={(email) => this.updateInput('email', email)}
         />
         <Hr />
         <Text>Si cuentas con un código de tu organización, agrégalo:</Text>
-        <InputField 
-          label="TOKEN DE ACCESO"
-          name="token"
-          value={ this.state.token }
-          onChangeText={(token) => this.updateInput('token', token)}
-          />
-
+        <Select
+          selectedValue={this.state.cvetipo}
+          label="TIPO DE CASILLA"
+          options={[
+            { value: '5873', label: 'UFIC - Rocío Miranda' },
+            { value: '8413', label: 'Agrónomos Democráticos - Héctor René Becerril' },
+            { value: '5485', label: 'CIOAC - JDLD	José Dolores López' },
+            { value: '4608', label: 'ANEC - Enrique Pérez' },
+            { value: '3389', label: 'CNPA - Héctor Yescas Torres' },
+            { value: '1784', label: 'COCYP - Gerónimo Jacobo Femat' },
+            { value: '0082', label: 'Chapingo - Nayeli Martínez Hernández' },
+          ]}
+          onValueChange={(itemValue) => this.updateInput('cvetipo', itemValue)}
+        />
         <Hr />
         <Button
           title="ENVIAR"
