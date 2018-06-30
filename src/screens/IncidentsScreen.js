@@ -19,6 +19,42 @@ class IncidentsScreen extends React.Component {
     },
   };
 
+  state = {
+    initialPosition: { 'coords': {
+      'longitude': 'unknown',
+      'latitude': 'unknown'
+    }},
+
+    lastPosition: { 'coords': {
+      'longitude': 'unknown',
+      'latitude': 'unknown'
+    }},
+    watchID: 0
+  }
+  
+
+  getCurrentPosition = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+         const initialPosition = JSON.stringify(position);
+         this.setState({ initialPosition });
+      },
+      (error) => alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+    this.state.watchID = navigator.geolocation.watchPosition((position) => {
+        const lastPosition = JSON.stringify(position);
+        this.setState({ lastPosition });
+    });
+  };
+
+  componentWillUnmount = () => { 
+    if ( this.state.watchID ) {
+      navigator.geolocation.clearWatch(this.state.watchID); 
+    }
+    
+  }
+
   render() {
     return (
       <Wrapper>
@@ -37,11 +73,11 @@ class IncidentsScreen extends React.Component {
           <Button
             title="AGREGAR COORDENADAS"
             color="#3a42b8"
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => { this.getCurrentPosition() } }
           />
           <View style={{ marginTop: 15 }}>
-            <Text>LATITUD: 21.19699</Text>
-            <Text>LONGITUD: -86.81962</Text>
+            <Text>LATITUD: {this.state.lastPosition.coords.latitude}</Text>
+            <Text>LONGITUD: {this.state.lastPosition.coords.longitude}</Text>
           </View>
         </View>
         <Hr />
