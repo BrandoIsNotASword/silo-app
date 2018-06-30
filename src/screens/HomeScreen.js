@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, Button, AsyncStorage } from 'react-native';
 
 import Hr from '../components/Hr';
 import Title from '../components/Title';
@@ -17,6 +17,14 @@ class HomeScreen extends React.Component {
       fontWeight: 'bold',
     },
   };
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    AsyncStorage.setItem('userid', this.props.navigation.getParam('userid').toString());
+  }
 
   render() {
     return (

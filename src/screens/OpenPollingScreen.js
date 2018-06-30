@@ -50,7 +50,6 @@ class PollingScreen extends React.Component {
 
   render() {
     const time = moment(this.state.hora_apertura).format('HH:mm');
-    console.log(this.state);
     return (
       <Wrapper>
         <Title>Apertura de casilla</Title>

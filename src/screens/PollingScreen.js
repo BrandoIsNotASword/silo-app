@@ -33,7 +33,6 @@ class PollingScreen extends React.Component {
   };
 
   updateInput = (key, value) => {
-    console.log(key, value);
     this.setState({ [key]: value });
   }
 
