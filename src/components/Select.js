@@ -6,7 +6,12 @@ class InputField extends React.Component {
     return (
       <View style={styles.wrapper}>
         <Text style={styles.text}>{this.props.label}</Text>
-        <Picker style={styles.picker} mode="dropdown">
+        <Picker
+          style={styles.picker}
+          selectedValue={this.props.selectedValue}
+          onValueChange={this.props.onValueChange}
+          mode="dropdown"
+        >
           {this.props.options.map((option, index) => <Picker.Item key={index} {...option} />)}
         </Picker>
       </View>

@@ -21,7 +21,7 @@ const RootStack = createStackNavigator({
   ClosePolling: ClosePollingScreen,
   OpenPolling: OpenPollingScreen,
 }, {
-  initialRouteName: 'Welcome'
+  initialRouteName: 'Polling'
 });
 
 export default class App extends React.Component {

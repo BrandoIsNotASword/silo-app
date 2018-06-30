@@ -35,7 +35,6 @@ class RegisterScreen extends React.Component {
     this.setState({ [key]: value });
   }
 
-  
   createUser = () => {
     const dataUser = {
       data: {
