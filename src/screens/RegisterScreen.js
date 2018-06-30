@@ -104,6 +104,7 @@ class RegisterScreen extends React.Component {
           value={ this.state.token }
           onChange={(token) => this.setState({token})}
           />
+
         <Hr />
         <Button
           title="ENVIAR"
