@@ -8,6 +8,7 @@ import Wrapper from '../components/Wrapper';
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'SIGO Móvil',
+    headerLeft: null,
     headerStyle: {
       backgroundColor: '#3a42b8',
     },
