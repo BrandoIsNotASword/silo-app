@@ -24,11 +24,11 @@ class RegisterScreen extends React.Component {
         <Title>Registro en el sistema</Title>
         <InputField label="NOMBRE COMPLETO" />
         <Hr />
-        <InputField label="CORREO ELECTRÓNICO" />
+        <InputField label="CORREO ELECTRÓNICO" keyboardType="email-address" />
         <Hr />
-        <InputField label="TELÉFONO" />
+        <InputField label="TELÉFONO" keyboardType="phone-pad" />
         <Hr />
-        <Text>Si cuentas con un código de tu organización, agrégalo:</Text>
+        <Text>Si cuentas con un código de tu organización agrégalo:</Text>
         <InputField label="TOKEN DE ACCESO" />
         <Hr />
         <Button

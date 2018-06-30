@@ -19,6 +19,9 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@cerebral/react": "^3.2.2",
+    "cerebral": "^4.2.2",
+    "cerebral-react-immutable-store": "^0.6.0",
     "expo": "^27.0.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
