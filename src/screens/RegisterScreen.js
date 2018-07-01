@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Button, Text, Alert } from 'react-native';
+import { StyleSheet, Button, Alert } from 'react-native';
 
 import Hr from '../components/Hr';
 import Title from '../components/Title';
 import Wrapper from '../components/Wrapper';
 import InputField from '../components/InputField';
+import Select from '../components/Select';
 
 class RegisterScreen extends React.Component {
 
@@ -16,7 +17,7 @@ class RegisterScreen extends React.Component {
       apellido_pat: '',
       apellido_mat: '',
       email: '',
-      token: '' 
+      token: '5873',
     }
   }
 
@@ -53,19 +54,29 @@ class RegisterScreen extends React.Component {
       },
       body: JSON.stringify(dataUser)
     })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) return Promise.resolve(response.json());
+      return Promise.reject(new Error(response.statusText));
+    })
     .then((responseJson) => {
       Alert.alert(
         'Registro exitoso',
         '¡Gracias por registrarte!',
         [
-          { text: 'CONTINUAR', onPress: () => this.props.navigation.navigate('Home') },
+          { text: 'CONTINUAR', onPress: () => this.props.navigation.navigate('Home', { userid: responseJson.userid }) },
         ],
         { cancelable: false },
       );
     })
     .catch((error) => {
-      console.log(error);
+      Alert.alert(
+        'Ha ocurrido un error',
+        'Verifica los datos e inténtalo de nuevo',
+        [
+          { text: 'OK' },
+        ],
+        { cancelable: true },
+      );
     });
   };
 
@@ -98,18 +109,24 @@ class RegisterScreen extends React.Component {
           label="CORREO ELECTRÓNICO"
           name="email"
           keyboardType="email-address"
-          value={ this.state.email } 
+          value={ this.state.email }
           onChangeText={(email) => this.updateInput('email', email)}
         />
         <Hr />
-        <Text>Si cuentas con un código de tu organización, agrégalo:</Text>
-        <InputField 
-          label="TOKEN DE ACCESO"
-          name="token"
-          value={ this.state.token }
-          onChangeText={(token) => this.updateInput('token', token)}
-          />
-
+        <Select
+          selectedValue={this.state.token}
+          label="SELECCIONA TU ORGANIZACIÓN"
+          options={[
+            { value: '5873', label: 'UFIC - Rocío Miranda' },
+            { value: '8413', label: 'Agrónomos Democráticos - Héctor René Becerril' },
+            { value: '5485', label: 'CIOAC - JDLD	José Dolores López' },
+            { value: '4608', label: 'ANEC - Enrique Pérez' },
+            { value: '3389', label: 'CNPA - Héctor Yescas Torres' },
+            { value: '1784', label: 'COCYP - Gerónimo Jacobo Femat' },
+            { value: '0082', label: 'Chapingo - Nayeli Martínez Hernández' },
+          ]}
+          onValueChange={(itemValue) => this.updateInput('token', itemValue)}
+        />
         <Hr />
         <Button
           title="ENVIAR"

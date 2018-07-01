@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, Button, AsyncStorage } from 'react-native';
 
 import Wrapper from '../components/Wrapper';
 
@@ -16,6 +16,8 @@ class WelcomeScreen extends React.Component {
   };
 
   render() {
+    AsyncStorage.getItem('userid').then(value => console.log(value));
+
     return (
       <Wrapper> 
         <Text style={styles.title}>¡Bienvenido!</Text>

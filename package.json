@@ -26,10 +26,12 @@
     "immutable-store": "^0.5.5",
     "jsc-android": "^224109.0.0",
     "json-circular-stringify": "0.0.1",
+    "moment": "^2.22.2",
     "react": "16.3.1",
     "react-easy-state": "^5.1.0",
     "react-native": "~0.55.2",
     "react-native-modal-datetime-picker": "^5.1.0",
+    "react-native-sync-localstorage": "0.0.3",
     "react-navigation": "^2.5.3",
     "react-router-native": "^4.3.0"
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Button, Keyboard } from 'react-native';
+import moment from 'moment';
 
 import TimePicker from 'react-native-modal-datetime-picker';
 
@@ -10,9 +11,17 @@ import Select from '../components/Select';
 import Hr from '../components/Hr';
 
 class PollingScreen extends React.Component {
-  state = {
-    isDateTimePickerVisible: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTimePickerVisible: false,
+      paquetes: true,
+      sabanas: true,
+      hora_cierre: null,
+      comentario: '',
+    };
+  }
 
   static navigationOptions = {
     title: 'SIGO Móvil',
@@ -25,43 +34,58 @@ class PollingScreen extends React.Component {
     },
   };
 
-  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  showTimePicker = () => this.setState({ isTimePickerVisible: true });
   
-  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  hideTimePicker = () => this.setState({ isTimePickerVisible: false });
 
   handleDatePicked = (date) => {
-    this.hideDateTimePicker();
+    this.setState({ hora_cierre: date });
+    this.hideTimePicker();
+  }
+
+  updateInput = (key, value) => {
+    this.setState({ [key]: value });
   }
 
   render() {
-    const nextPage = this.props.navigation.getParam('nextPage');
+    const time = moment(this.state.hora_cierre).format('HH:mm');
+
     return (
       <Wrapper> 
         <Title>Cierre de casilla</Title>
         <Select
-          label="PAQUETE ELECTORAL AL INE"
+          selectedValue={this.state.paquetes}
+          label="PAQUETE ELECTORAL ENTREGADO AL INE"
           options={[
-            { label: 'Sí', value: 'si' },
-            { label: 'No', value: 'no' },
+            { label: 'Sí', value: true },
+            { label: 'No', value: false },
           ]}
+          onValueChange={(itemValue) => this.updateInput('paquetes', itemValue)}
         />
         <Hr />
         <Select
           label="SÁBANA DE RESULTADOS DESPLEGADO AFUERA"
           options={[
-            { label: 'Sí', value: 'si' },
-            { label: 'No', value: 'no' },
+            { label: 'Sí', value: true },
+            { label: 'No', value: false },
           ]}
+          onValueChange={(itemValue) => this.updateInput('sabanas', itemValue)}
         />
         <Hr />
         <InputField
           caretHidden
+          value={ time === 'Invalid date' ? '' : time }
           label="HORA DE CIERRE"
           onFocus={() => Keyboard.dismiss()}
-          onTouchStart={() => { this.showDateTimePicker() }}
+          onTouchStart={() => { this.showTimePicker() }}
         />
         <Hr />
-        <InputField label="COMENTARIOS Y/O INCIDENTES" multiline />
+        <InputField
+          multiline
+          value={ this.state.comentario }
+          onChangeText={(comentario) => this.updateInput('comentario', comentario)}
+          label="COMENTARIOS Y/O INCIDENTES"
+        />
         <Hr />
         <Button
           title="Continuar"
@@ -70,9 +94,9 @@ class PollingScreen extends React.Component {
         />
         <TimePicker
           mode="time"
-          isVisible={this.state.isDateTimePickerVisible}
+          isVisible={this.state.isTimePickerVisible}
           onConfirm={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
+          onCancel={this.hideTimePicker}
         />
       </Wrapper>
     );
