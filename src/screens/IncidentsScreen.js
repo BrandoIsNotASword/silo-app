@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View, Button, Text, Alert } from 'react-native';
 
 import Hr from '../components/Hr';
 import Title from '../components/Title';
@@ -15,18 +15,11 @@ class IncidentsScreen extends React.Component {
       userid: 1,
       tipo: '', 
       descripcion: '', 
-      watchID: (null: ?number),
-      initialPosition: { coords: {
-        longitude: 'unknown',
-        latitude: 'unknown'
-      }},
-  
-      lastPosition: { coords: {
-        longitude: 'unknown',
-        latitude: 'unknown'
-      }},
-    }
-  }
+      latitude: null,
+      longitude: null,
+      errorPosition: null,
+    };
+  };
 
   static navigationOptions = {
     title: 'SIGO Móvil',
@@ -48,11 +41,13 @@ class IncidentsScreen extends React.Component {
       data: {
         userid: 1,
         tipo: this.state.tipo, 
-        lat: this.state.lastPosition.coords.latitude,
-        lon: this.state.lastPosition.coords.longitude,  
+        lat: this.state.latitude,
+        lon: this.state.longitude,  
         descripcion: this.state.descripcion,   
       }
     };
+
+    console.log(JSON.stringify(dataIncident));
   
     fetch('https://gzlc6adyw6.execute-api.us-east-2.amazonaws.com/dev/incidente', {
       method: 'post',
@@ -63,7 +58,7 @@ class IncidentsScreen extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      Alert.alert(
+      Alert.alert(    
         'Incidente creado Satisfactoriamente.',
         '¡Gracias por su participación!',
         [
@@ -78,26 +73,19 @@ class IncidentsScreen extends React.Component {
   }
 
   getCurrentPosition = () => {
+    console.log('Entró!');
     navigator.geolocation.getCurrentPosition(
       (position) => {
-         const initialPosition = JSON.stringify(position);
-         this.setState({ initialPosition });
+        console.log(JSON.stringify(position));
+        this.updateInput('latitude', position.coords.latitude);
+        this.updateInput('longitude', position.coords.longitude);
       },
-      (error) => alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      (error) =>  console.log(JSON.stringify(error)),
+      //this.updateInput('errorPosition', error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-    this.state.watchID = navigator.geolocation.watchPosition((position) => {
-        const lastPosition = JSON.stringify(position);
-        this.setState({ lastPosition });
-    });
-  };
-
-  componentWillUnmount = () => { 
-    if ( this.state.watchID ) {
-      navigator.geolocation.clearWatch(this.state.watchID); 
-    }
-    
   }
+
 
   render() {
     return (
@@ -107,6 +95,7 @@ class IncidentsScreen extends React.Component {
           label="TIPO DE IRREGULARIDAD"
           selectedValue={this.state.tipo}   
           options={[
+            { label: 'Selecciona un tipo.', value: '0' },
             { label: 'Reparto de despensas, dádivas o material de parte del gobierno o partidos políticos', value: '1' },
             { label: 'Servidores públicos participan u organizan actos partidistas', value: '2' },
             { label: 'Recoger una o más credenciales para votar', value: '3' },
@@ -131,11 +120,11 @@ class IncidentsScreen extends React.Component {
           <Button
             title="AGREGAR COORDENADAS"
             color="#3a42b8"
-            onPress={() => { this.getCurrentPosition() } }
+            onPress={() => this.getCurrentPosition() }
           />
           <View style={{ marginTop: 15 }}>
-            <Text>LATITUD: {this.state.lat}</Text>
-            <Text>LONGITUD: {this.state.lon}</Text>
+            <Text>LATITUD: {this.state.latitude}</Text>
+            <Text>LONGITUD: {this.state.longitude}</Text>
           </View>
         </View>
         <Hr />
